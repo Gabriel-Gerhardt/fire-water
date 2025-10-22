@@ -1,12 +1,15 @@
 // main.go - Loop principal do jogo
 package main
 
-import "os"
+import (
+	"jogo/Client"
+	"os"
+)
 
 func main() {
 	// Inicializa a interface (termbox)
-	interfaceIniciar()
-	defer interfaceFinalizar()
+	Client.InterfaceIniciar()
+	defer Client.InterfaceFinalizar()
 
 	// Usa "mapa.txt" como arquivo padrão ou lê o primeiro argumento
 	mapaFile := "mapa.txt"
@@ -15,20 +18,20 @@ func main() {
 	}
 
 	// Inicializa o jogo
-	jogo := jogoNovo()
-	if err := jogoCarregarMapa(mapaFile, &jogo); err != nil {
+	jogo := Client.JogoNovo()
+	if err := Client.JogoCarregarMapa(mapaFile, &jogo); err != nil {
 		panic(err)
 	}
 
 	// Desenha o estado inicial do jogo
-	interfaceDesenharJogo(&jogo)
+	Client.InterfaceDesenharJogo(&jogo)
 
 	// Loop principal de entrada
 	for {
-		evento := interfaceLerEventoTeclado()
-		if continuar := personagemExecutarAcao(evento, &jogo); !continuar {
+		evento := Client.InterfaceLerEventoTeclado()
+		if continuar := Client.PersonagemExecutarAcao(evento, &jogo); !continuar {
 			break
 		}
-		interfaceDesenharJogo(&jogo)
+		Client.InterfaceDesenharJogo(&jogo)
 	}
 }
